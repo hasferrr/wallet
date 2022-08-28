@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Change Password
+{% endblock %}
+
+{% block main %}
+<p class="h2 mt-0 mb-5">Change Password</p>
+<form action="/settings/password" method="post">
+    <div class="mb-3">
+        <input class="form-control mx-auto w-auto" name="old_password" placeholder="Old Password" type="password">
+    </div>
+    <div class="mb-3">
+        <input class="form-control mx-auto w-auto" name="new_password" placeholder="New Password" type="password">
+    </div>
+    <div class="mb-3">
+        <input class="form-control mx-auto w-auto" name="confirmation" placeholder="New Password (again)" type="password">
+    </div>
+    <button class="btn btn-primary" type="submit">Change</button>
+</form>
+<div class="alert alert-primary mt-5 text-center {{ hide }}" role="alert">
+{{ message }}
+</div>
+{% endblock %}

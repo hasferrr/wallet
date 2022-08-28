@@ -20,3 +20,13 @@ def connect_db(db="wallet.db"):
     con = sqlite3.connect(db)
     cur = con.cursor()
     return con, cur
+
+
+def username_validation(username):
+    if not username.isascii():
+        return 1
+    specialchars = "`~!@#$%^&*()-=+}{[\|];:,.<>/?' " + '"'
+    for i in range(len(username)):
+        if username[i] in specialchars:
+            return 2
+    return 0

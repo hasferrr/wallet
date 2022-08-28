@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Settings
+{% endblock %}
+
+{% block main %}
+<p class="h2 mt-0 mb-5">Settings</p>
+<form action="/settings" method="post">
+    <div class="list-group">
+        <input type="submit" name="button" value="Change Username" class="list-group-item list-group-item-action">
+        <input type="submit" name="button" value="Change Password" class="list-group-item list-group-item-action">
+        <input type="submit" name="button" value="Delete Account" class="list-group-item list-group-item-action" style="color:tomato" disabled>
+    </div>
+</form>
+{% endblock %}

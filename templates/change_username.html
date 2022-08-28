@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Change Username
+{% endblock %}
+
+{% block main %}
+<p class="h2 mt-0 mb-5">Change Username</p>
+<form action="/settings/username" method="post">
+    <div class="mb-3">
+        <input class="form-control mx-auto w-auto" id="readOnlyInput" type="text" placeholder="{{user}}" readonly="">
+    </div>
+    <div class="mb-3">
+        <input class="form-control mx-auto w-auto" name="new_username" placeholder="New Username" type="text" autocomplete="off">
+    </div>
+    <button class="btn btn-primary" type="submit">Change</button>
+</form>
+<div class="alert alert-primary mt-5 text-center {{ hide }}" role="alert">
+{{ message }}
+</div>
+{% endblock %}
