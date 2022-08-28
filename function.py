@@ -1,3 +1,5 @@
+import sqlite3
+
 from functools import wraps
 from flask import redirect, session
 
@@ -12,3 +14,9 @@ def login_required(f):
             return redirect("/login")
         return f(*args, **kwargs)
     return decorated_function
+
+
+def connect_db(db="wallet.db"):
+    con = sqlite3.connect(db)
+    cur = con.cursor()
+    return con, cur

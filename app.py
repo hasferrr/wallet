@@ -1,10 +1,8 @@
-import sqlite3
-
 from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from function import login_required
+from function import login_required, connect_db
 
 # Configure app
 app = Flask(__name__)
@@ -141,9 +139,3 @@ def register():
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("error.html", error="404 Page not found"), 404
-
-
-def connect_db(db="wallet.db"):
-    con = sqlite3.connect(db)
-    cur = con.cursor()
-    return con, cur
