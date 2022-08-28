@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, session
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from function import login_required, connect_db, username_validation
+from helpers import login_required, connect_db, username_validation
 
 """
 Modular Applications with Blueprints
