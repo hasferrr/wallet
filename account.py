@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, session
+from flask import Blueprint, render_template, request, redirect, session, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import login_required, connect_db, username_validation
@@ -182,10 +182,11 @@ def changepass():
         con.commit()
 
         con.close()
-        return render_template("change_pass.html", message="Password was changed successfully!")
+        flash("Password was changed successfully!")
+        return redirect("/settings/password")
 
     else:
-        return render_template("change_pass.html", hide="visually-hidden")
+        return render_template("changepass.html")
 
 
 @account_page.route("/settings/username", methods=["GET", "POST"])
@@ -225,10 +226,11 @@ def changeusername():
         con.commit()
 
         con.close()
+        flash("Username was changed successfully!")
         return redirect("/settings/username")
 
     else:
         con, cur = connect_db()
         user = cur.execute("SELECT username FROM users WHERE id = ?", (session["user_id"],)).fetchall()[0][0]
         con.close()
-        return render_template("change_username.html", user=user, hide="visually-hidden")
+        return render_template("changeusername.html", user=user)
