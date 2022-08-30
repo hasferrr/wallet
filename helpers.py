@@ -30,3 +30,12 @@ def username_validation(username):
         if username[i] in specialchars:
             return 2
     return 0
+
+
+def idr(value):
+    # Format value as IDR
+    value = f"Rp{value:,.2f}"
+    rupiah = value.replace(".","#")
+    rupiah = rupiah.replace(",",".")
+    rupiah = rupiah.replace("#",",")
+    return rupiah
