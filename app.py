@@ -17,8 +17,12 @@ Session(app)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    # If user has not been loged in
+    if session.get("user_id") is None:
+        return render_template("home.html")
 
+    # User logged in
+    return render_template("index.html")
 
 @app.errorhandler(404)
 def page_not_found(error):

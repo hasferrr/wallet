@@ -5,15 +5,32 @@
 {% endblock %}
 
 {% block main %}
-<div class="text-start">
-    <h1>This is CS50x</h1>
-    <p>Hello world</p>
+<div class="row">
 
-    <h2>Example body text</h2>
-    <p>Nullam quis risus eget <a href="#">urna mollis ornare</a> vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.</p>
-    <p><small>This line of text is meant to be treated as fine print.</small></p>
-    <p>The following is <span class="fw-bold">rendered as bold text</span class="fw-bold">.</p>
-    <p>The following is <em>rendered as italicized text</em>.</p>
-    <p>An abbreviation of the word attribute is <abbr title="attribute">attr</abbr>.</p>
+    <div class="col-sm-1">
+        <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#demo">Record</button>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Anything" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <form>
+            <div class="input-group mb-3">
+                <input type="date" class="form-control">
+                <button class="btn btn-primary" type="button" id="button-addon2">Filter</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div id="demo" class="collapse">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit,<br>
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,<br>
 </div>
 {% endblock %}
