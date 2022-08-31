@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
 
 from account import account_page
-from helpers import connect_db, idr
+from helpers import connect_db, idr, get_date_now, get_time_now
 
 
 # Configure app
@@ -67,10 +67,12 @@ def index():
 
     # Query records
     if request.form.get('filter_btn') == 'between':
-        res = cur.execute("SELECT * FROM records WHERE user_id = ? AND date BETWEEN ? AND ?", (session["user_id"], start_date, end_date))
+        res = cur.execute("SELECT * FROM records WHERE user_id = ? AND date BETWEEN ? AND ?",
+                          (session["user_id"], start_date, end_date))
 
     elif request.form.get('search_btn') == 'search_btn':
-        res = cur.execute("SELECT * FROM records WHERE user_id = ? AND (account_name LIKE ? OR description LIKE ?)", (session["user_id"], f"%{keyword}%", f"%{keyword}%"))
+        res = cur.execute("SELECT * FROM records WHERE user_id = ? AND (account_name LIKE ? OR description LIKE ?)",
+                          (session["user_id"], f"%{keyword}%", f"%{keyword}%"))
 
     else:
         res = cur.execute("SELECT * FROM records WHERE user_id = ? AND date LIKE ?", (session["user_id"], date_filter))
@@ -97,7 +99,19 @@ def index():
     expense = idr(expense)
 
     con.close()
-    return render_template("home.html", records=records, income=income, expense=expense, label=label)
+    return render_template("home.html", records=records, income=income, expense=expense, label=label, date_now=get_date_now(), time_now=get_time_now())
+
+
+@app.route("/record", methods=["GET", "POST"])
+def record():
+
+    # User reached route via POST
+    if request.method == 'POST':
+        return redirect("/")
+
+    # User reached route via GET
+    else:
+        return redirect("/")
 
 
 @app.errorhandler(404)

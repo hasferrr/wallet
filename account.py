@@ -30,7 +30,7 @@ def login():
 
         # Query database for username
         con, cur = connect_db()
-        rows = cur.execute("SELECT * FROM users WHERE username=:name", {"name":request.form.get("username").lower()})
+        rows = cur.execute("SELECT * FROM users WHERE username=:name", {"name": request.form.get("username").lower()})
         rows = list(rows.fetchall())
 
         # Ensure username exists and password is correct
