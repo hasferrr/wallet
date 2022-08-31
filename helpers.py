@@ -4,13 +4,12 @@ from datetime import datetime
 
 from flask import redirect, session
 
-"""
-Login Required Decorator
-https://flask.palletsprojects.com/en/2.2.x/patterns/viewdecorators/#login-required-decorator
-"""
-
 
 def login_required(f):
+    """
+    Login Required Decorator
+    https://flask.palletsprojects.com/en/2.2.x/patterns/viewdecorators/
+    """
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get("user_id") is None:
@@ -75,3 +74,23 @@ def get_time_now():
 
     time_now = f"{hour}:{minute}"
     return time_now
+
+
+def date_validation(date_text):
+    """
+    How do I validate a date string format in python?
+    https://stackoverflow.com/questions/16870663/how-do-i-validate-a-date-string-format-in-python
+    """
+    try:
+        datetime.strptime(date_text, '%Y-%m-%d')
+        return 0
+    except ValueError:
+        return 1
+
+
+def time_validation(time_text):
+    try:
+        datetime.strptime(time_text, '%H:%M')
+        return 0
+    except ValueError:
+        return 1

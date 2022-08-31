@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
 
 from account import account_page
-from helpers import connect_db, idr, get_date_now, get_time_now
+from helpers import connect_db, idr, get_date_now, get_time_now, date_validation, time_validation
 
 
 # Configure app
@@ -107,6 +107,39 @@ def record():
 
     # User reached route via POST
     if request.method == 'POST':
+
+        # Ensure input is a valid value
+        # Check type (Income or Expense)
+        if request.form.get('btnradio') == 'Income':
+            pass
+        elif request.form.get('btnradio') == 'Expense':
+            pass
+        else:
+            return render_template("error.html", error="invalid type")
+
+        # Check category / account_name
+        con, cur = connect_db()
+        res = cur.execute("SELECT name FROM account")
+
+        account_name = []
+        for i in res:
+            account_name.append(i[0])
+
+        if request.form.get('account_name') not in account_name:
+            return render_template("error.html", error="invalid account name")
+
+        # Check amount
+        if float(request.form.get('amount')) < 0:
+            return render_template("error.html", error="invalid amount")
+
+        # Check date and time
+        if date_validation(request.form.get('date')) == 1:
+            return render_template("error.html", error="invalid value")
+
+        elif time_validation(request.form.get('time')) == 1:
+            return render_template("error.html", error="invalid value")
+
+        con.close()
         return redirect("/")
 
     # User reached route via GET
