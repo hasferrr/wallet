@@ -64,15 +64,14 @@
         </tr>
     </thead>
     <tbody>
-        {% set string_income = "Income" %}
         {% for record in records %}
         <tr>
             <td class="text-start">{{ record[2] }}</td>
             <td class="text-start">{{ record[4] }}</td>
             <td class="text-start">{{ record[5] }}</td>
             <td class="text-start"><em>{{ record[6] }}</em></td>
-            <td class="text-end text-success">{% if record[3] in string_income %}{{ record[7] }}{% else %}{% endif %}</td>
-            <td class="text-end text-danger">{% if record[3] not in string_income %}{{ record[7] }}{% else %}{% endif %}</td>
+            <td class="text-end text-success">{% if record[3] in "Income" %}{{ record[7] }}{% else %}{% endif %}</td>
+            <td class="text-end text-danger">{% if record[3] not in "Income" %}{{ record[7] }}{% else %}{% endif %}</td>
         </tr>
         {% endfor %}
     </tbody>
