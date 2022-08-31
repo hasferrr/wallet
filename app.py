@@ -34,37 +34,47 @@ def index():
         year_now = str(datetime.now().year)
         month_now = str(datetime.now().month)
         date_filter = year_now + '%' + month_now + '%'
-        time = 'This Month'
+        label = 'This Month'
 
     # User reached route via POST
     else:
         # If all time button was clicked
         if request.form.get('filter_btn') == 'alltime':
             date_filter = '%'
-            time = 'All Time'
+            label = 'All Time'
 
         # If all this year button was clicked
         elif request.form.get('filter_btn') == 'thisyear':
             year_now = str(datetime.now().year)
             date_filter = year_now + '%'
-            time = 'This Year'
+            label = 'This Year'
 
         # If user select the date to filter
         elif request.form.get('filter_btn') == 'between':
             start_date = request.form.get('start_date')
             end_date = request.form.get('end_date')
-            time = 'Between ' + start_date + ' and ' + end_date
+            label = 'Between ' + start_date + ' and ' + end_date
 
-        # Prevent error 500
+        # If user using search form
+        elif request.form.get('search_btn') == 'search_btn':
+            keyword = request.form.get('search_vield').strip()
+            label = f'Keyword : "{keyword}"'
+
+        # Prevent error 500 for magical reason
         else:
-            date_filter = '%'
-            time = None
+            date_filter = '0'
+            label = None
 
     # Query records
     if request.form.get('filter_btn') == 'between':
         res = cur.execute("SELECT * FROM records WHERE user_id = ? AND date BETWEEN ? AND ?", (session["user_id"], start_date, end_date))
+
+    elif request.form.get('search_btn') == 'search_btn':
+        res = cur.execute("SELECT * FROM records WHERE user_id = ? AND (account_name LIKE ? OR description LIKE ?)", (session["user_id"], f"%{keyword}%", f"%{keyword}%"))
+
     else:
         res = cur.execute("SELECT * FROM records WHERE user_id = ? AND date LIKE ?", (session["user_id"], date_filter))
+
     res = list(res)
 
     # Sum income and expenses
@@ -87,7 +97,7 @@ def index():
     expense = idr(expense)
 
     con.close()
-    return render_template("home.html", records=records, income=income, expense=expense, time=time)
+    return render_template("home.html", records=records, income=income, expense=expense, label=label)
 
 
 @app.errorhandler(404)

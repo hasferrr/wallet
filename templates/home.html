@@ -12,10 +12,12 @@
     </div>
 
         <div class="col-lg-4">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Anything" aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
-            </div>
+            <form action="/" method="post">
+                <div class="input-group mb-3">
+                    <input name="search_vield" type="text" class="form-control" placeholder="Anything" aria-label="Search" aria-describedby="button-addon2">
+                    <button name="search_btn" value="search_btn" class="btn btn-primary" type="submit" id="button-addon2">Search</button>
+                </div>
+            </form>
         </div>
 
     <div class="col-lg-4">
@@ -49,7 +51,7 @@
 <br>
 
 <!-- TABLE -->
-<h4 class="mb-5 fw-bold">{{ time }}</h4>
+<h4 class="mb-5 fw-bold">{{ label }}</h4>
 <table class="table table-striped">
     <thead>
         <tr>
