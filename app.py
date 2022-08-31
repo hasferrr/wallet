@@ -18,20 +18,53 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
     # If user has not been loged in
     if session.get("user_id") is None:
         return render_template("index.html")
 
-    # User logged in
+    # If user logged in
+    # Connect to database
     con, cur = connect_db()
 
+    # User reached route via GET
+    if request.method == "GET":
+
+        year_now = str(datetime.now().year)
+        month_now = str(datetime.now().month)
+        date_filter = year_now + '%' + month_now + '%'
+        time = 'This Month'
+
+    # User reached route via POST
+    else:
+        # If all time button was clicked
+        if request.form.get('filter_btn') == 'alltime':
+            date_filter = '%'
+            time = 'All Time'
+
+        # If all this year button was clicked
+        elif request.form.get('filter_btn') == 'thisyear':
+            year_now = str(datetime.now().year)
+            date_filter = year_now + '%'
+            time = 'This Year'
+
+        # If user select the date to filter
+        elif request.form.get('filter_btn') == 'between':
+            start_date = request.form.get('start_date')
+            end_date = request.form.get('end_date')
+            time = 'Between ' + start_date + ' and ' + end_date
+
+        # Prevent error 500
+        else:
+            date_filter = '%'
+            time = None
+
     # Query records
-    year_now = str(datetime.now().year)
-    month_now = str(datetime.now().month)
-    this_month = year_now + '%' + month_now + '%'
-    res = cur.execute("SELECT * FROM records WHERE user_id = ? AND date LIKE ?", (session["user_id"], this_month))
+    if request.form.get('filter_btn') == 'between':
+        res = cur.execute("SELECT * FROM records WHERE user_id = ? AND date BETWEEN ? AND ?", (session["user_id"], start_date, end_date))
+    else:
+        res = cur.execute("SELECT * FROM records WHERE user_id = ? AND date LIKE ?", (session["user_id"], date_filter))
     res = list(res)
 
     # Sum income and expenses
@@ -54,7 +87,7 @@ def index():
     expense = idr(expense)
 
     con.close()
-    return render_template("home.html", records=records, income=income, expense=expense, time='This Month')
+    return render_template("home.html", records=records, income=income, expense=expense, time=time)
 
 
 @app.errorhandler(404)

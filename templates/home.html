@@ -11,7 +11,7 @@
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#demo">Record</button>
     </div>
 
-        <div class="col-lg-3">
+        <div class="col-lg-4">
             <div class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Anything" aria-label="Recipient's username" aria-describedby="button-addon2">
                 <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
@@ -19,20 +19,26 @@
         </div>
 
     <div class="col-lg-4">
-        <form>
+        <form action="/" method="post">
             <div class="input-group mb-3">
-                <input type="date" class="form-control">
-                <input type="date" class="form-control">
-                <button class="btn btn-primary" type="button" id="button-addon2">Filter</button>
+                <input name="start_date" type="date" class="form-control">
+                <input name="end_date" type="date" class="form-control">
+                <button name="filter_btn" value="between" class="btn btn-primary" type="submit" id="button-addon2">Filter</button>
             </div>
         </form>
     </div>
 
-    <div class="col-lg-2 mb-3">
-        <button type="button" class="btn btn-primary mb-3">Filter : This year</button>
+    <div class="col-lg-1 mb-3">
+        <button class="btn btn-primary mb-3" onclick="window.location.href=window.location.href;">This month</button>
+        </form>
     </div>
-    <div class="col-lg-2 mb-3">
-        <button type="button" class="btn btn-primary mb-3">Filter : All time</button>
+    <div class="col-lg-1 mb-3">
+        <form action="/" method="post">
+            <button name="filter_btn" value="thisyear" type="submit" class="btn btn-primary mb-3">This year</button>
+    </div>
+    <div class="col-lg-1 mb-3">
+            <button name="filter_btn" value="alltime" type="submit" class="btn btn-primary mb-3">All time</button>
+    </form>
     </div>
 </div>
 
