@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
 
 from account import account_page
-from helpers import connect_db, idr, get_date_now, get_time_now, date_validation, time_validation
+from helpers import connect_db, idr, get_date_now, get_time_now, date_validation, time_validation, id_generator
 
 
 # Configure app
@@ -147,8 +147,8 @@ def record():
             return render_template("error.html", error="too long")
 
         # Store to database
-        cur.execute("INSERT INTO records (user_id,account_name,account_category,date,time,description,amount) VALUES (?,?,?,?,?,?,?)",
-                    (session["user_id"], account_name, btnradio, date, time, description, amount))
+        cur.execute("INSERT INTO records (user_id,account_name,account_category,date,time,description,amount,random_id) VALUES (?,?,?,?,?,?,?,?)",
+                    (session["user_id"], account_name, btnradio, date, time, description, amount, id_generator()))
         con.commit()
 
         con.close()
@@ -162,12 +162,12 @@ def record():
 @app.route("/delete", methods=["POST"])
 def delete():
     """Delete record"""
-    delete_id = request.form.get("delete_id")
+    random_id = request.form.get("error_code")
 
     # Delete row from database
     con, cur = connect_db()
-    cur.execute("DELETE FROM records WHERE user_id = ? AND id = ?", (session["user_id"], delete_id))
-    #con.commit()
+    cur.execute("DELETE FROM records WHERE user_id = ? AND random_id = ?", (session["user_id"], random_id))
+    con.commit()
 
     con.close()
     return redirect("/")

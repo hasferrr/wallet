@@ -1,6 +1,8 @@
 import sqlite3
 from functools import wraps
 from datetime import datetime
+from string import ascii_letters, digits
+from random import choice
 
 from flask import redirect, session
 
@@ -94,3 +96,11 @@ def time_validation(time_text):
         return 0
     except ValueError:
         return 1
+
+
+def id_generator(size=32, chars=ascii_letters + digits):
+    """
+    Random string generation with upper case letters and digits
+    https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits
+    """
+    return ''.join(choice(chars) for i in range(size))
