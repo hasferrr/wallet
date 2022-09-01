@@ -108,32 +108,48 @@ def record():
     # User reached route via POST
     if request.method == 'POST':
 
+        btnradio = request.form.get('btnradio')
+        account_name = request.form.get('account_name')
+        amount = request.form.get('amount')
+        date = request.form.get('date')
+        time = request.form.get('time')
+        description = request.form.get('description')
+
         # Ensure input is a valid value
         # Check type (Income or Expense)
-        if request.form.get('btnradio') not in ['Income', 'Expense']:
+        if btnradio not in ['Income', 'Expense']:
             return render_template("error.html", error="invalid type")
 
         # Check category / account_name
         con, cur = connect_db()
         res = cur.execute("SELECT name FROM account")
 
-        account_name = []
+        account_name_list = []
         for i in res:
-            account_name.append(i[0])
+            account_name_list.append(i[0])
 
-        if request.form.get('account_name') not in account_name:
+        if account_name not in account_name_list:
             return render_template("error.html", error="invalid account name")
 
         # Check amount
-        if float(request.form.get('amount')) < 0:
+        if float(amount) < 0:
             return render_template("error.html", error="invalid amount")
 
         # Check date and time
-        if date_validation(request.form.get('date')) == 1:
+        if date_validation(date) == 1:
             return render_template("error.html", error="invalid value")
 
-        elif time_validation(request.form.get('time')) == 1:
+        elif time_validation(time) == 1:
             return render_template("error.html", error="invalid value")
+
+        # Set max length of description
+        if len(description) > 50:
+            return render_template("error.html", error="too long")
+
+        # Store to database
+        cur.execute("INSERT INTO records (user_id,account_name,account_category,date,time,description,amount) VALUES (?,?,?,?,?,?,?)",
+                    (session["user_id"], account_name, btnradio, date, time, description, amount))
+        con.commit()
 
         con.close()
         return redirect("/")
