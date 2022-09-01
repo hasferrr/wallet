@@ -104,3 +104,27 @@ def id_generator(size=32, chars=ascii_letters + digits):
     https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits
     """
     return ''.join(choice(chars) for i in range(size))
+
+
+def account_name_list(selected=''):
+    # Query
+    con, cur = connect_db()
+    res = cur.execute("SELECT * FROM account")
+
+    # Assign to list for each account_name (category) and its selected option if any
+    income_list = []
+    expense_list = []
+    for i in res:
+        if i[0] == 'Income':
+            if i[1] == selected:
+                income_list.append([i[1], 'selected'])
+            else:
+                income_list.append([i[1], ''])
+        else:
+            if i[1] == selected:
+                expense_list.append([i[1], 'selected'])
+            else:
+                expense_list.append([i[1], ''])
+
+    con.close()
+    return income_list, expense_list

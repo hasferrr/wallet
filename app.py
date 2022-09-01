@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
 
 from account import account_page
-from helpers import connect_db, idr, get_date_now, get_time_now, date_validation, time_validation, id_generator
+from helpers import connect_db, idr, get_date_now, get_time_now, date_validation, time_validation, id_generator, account_name_list
 
 
 # Configure app
@@ -98,8 +98,14 @@ def index():
     income = idr(income)
     expense = idr(expense)
 
+    # List of account_name (category)
+    income_list, expense_list = account_name_list()
+
+    default_selected = "selected"
+    print(income_list)
+
     con.close()
-    return render_template("home.html", records=records, income=income, expense=expense, label=label, date_now=get_date_now(), time_now=get_time_now())
+    return render_template("home.html", records=records, income=income, expense=expense, label=label, date_now=get_date_now(), time_now=get_time_now(), income_list=income_list, expense_list=expense_list, default_selected=default_selected)
 
 
 @app.route("/record", methods=["GET", "POST"])
@@ -201,22 +207,23 @@ def edit():
         records.append(i)
     record = records[0]
 
-    # [9,1,'Vehicle','Expense','2022-09-01','19:42','bensin','Rp50.000,00','asfdas']
+    # Set default values, selected option, and checked radio button
+    income_list, expense_list = account_name_list(record[2])
 
-    account_name = record[2]
     if record[3] == 'Income':
         income_checked = 'checked'
         expense_checked = ''
     else:
         income_checked = ''
         expense_checked = 'checked'
+
     date_now = record[4]
     time_now = record[5]
     decs_now = record[6]
     amount_now = res[0][7]
 
     con.close()
-    return render_template("edit.html", record=record, random_id=random_id, amount_now=amount_now, decs_now=decs_now, time_now=time_now, date_now=date_now, expense_checked=expense_checked, income_checked=income_checked)
+    return render_template("edit.html", record=record, random_id=random_id, amount_now=amount_now, decs_now=decs_now, time_now=time_now, date_now=date_now, expense_checked=expense_checked, income_checked=income_checked, income_list=income_list, expense_list=expense_list)
 
 
 @app.errorhandler(404)
