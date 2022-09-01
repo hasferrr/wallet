@@ -46,7 +46,12 @@
 
 <!-- RECORD -->
 <div id="demo" class="collapse">
-    {% include "include/record.html" %}
+    <hr class="mb-5">
+    <h4 class="mb-5 fw-bold">Record</h4>
+    <form action="/record" method="post">
+        {% include "include/record.html" %}
+    </form>
+    <hr class="mt-5">
 </div>
 <br>
 
