@@ -110,11 +110,7 @@ def record():
 
         # Ensure input is a valid value
         # Check type (Income or Expense)
-        if request.form.get('btnradio') == 'Income':
-            pass
-        elif request.form.get('btnradio') == 'Expense':
-            pass
-        else:
+        if request.form.get('btnradio') not in ['Income', 'Expense']:
             return render_template("error.html", error="invalid type")
 
         # Check category / account_name
