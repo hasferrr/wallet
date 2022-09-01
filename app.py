@@ -159,6 +159,20 @@ def record():
         return redirect("/")
 
 
+@app.route("/delete", methods=["POST"])
+def delete():
+    """Delete record"""
+    delete_id = request.form.get("delete_id")
+
+    # Delete row from database
+    con, cur = connect_db()
+    cur.execute("DELETE FROM records WHERE user_id = ? AND id = ?", (session["user_id"], delete_id))
+    con.commit()
+
+    con.close()
+    return redirect("/")
+
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("error.html", error="404 Page not found"), 404

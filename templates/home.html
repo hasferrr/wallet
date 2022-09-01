@@ -55,6 +55,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
+            <th style="width:1%;"></th>
             <th class="text-start">Category</th>
             <th class="text-start">Date</th>
             <th class="text-start">Time</th>
@@ -66,6 +67,12 @@
     <tbody>
         {% for record in records %}
         <tr>
+            <td>
+                <form action="/delete" method="post">
+                    <input type="hidden" name="delete_id" value="{{ record[0] }}">
+                    <input class="btn btn-outline-dark border-0" type="submit" value="X" title="Delete">
+                </form>
+            </td>
             <td class="text-start">{{ record[2] }}</td>
             <td class="text-start">{{ record[4] }}</td>
             <td class="text-start">{{ record[5] }}</td>
@@ -77,6 +84,7 @@
     </tbody>
     <tfoot>
         <tr>
+            <td class="border-0"></td>
             <td class="border-0"></td>
             <td class="border-0"></td>
             <td class="border-0"></td>
