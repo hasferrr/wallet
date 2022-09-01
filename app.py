@@ -102,7 +102,6 @@ def index():
     income_list, expense_list = account_name_list()
 
     default_selected = "selected"
-    print(income_list)
 
     con.close()
     return render_template("home.html", records=records, income=income, expense=expense, label=label, date_now=get_date_now(), time_now=get_time_now(), income_list=income_list, expense_list=expense_list, default_selected=default_selected)
