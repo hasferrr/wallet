@@ -7,10 +7,33 @@
 {% block main %}
 <h4 class="mb-5 fw-bold">Report & Statistics</h4>
 
+<!-- FILTER BUTTON -->
 <div class="row">
+    <div class="col-lg-1 mb-3"></div>
 
+    <div class="col-lg-5 mb-3">
+        <button type="button" class="btn btn-primary m-2">Last 30D</button>
+        <button type="button" class="btn btn-primary m-2">This Month</button>
+        <button type="button" class="btn btn-primary m-2">This Year</button>
+        <button type="button" class="btn btn-primary m-2">All time</button>
+    </div>
+
+    <div class="col-lg-5">
+        <form action="/" method="post">
+            <div class="input-group mb-3">
+                <input name="start_date" type="date" class="form-control mt-2">
+                <input name="end_date" type="date" class="form-control mt-2">
+                <button name="filter_btn" value="between" class="btn btn-primary mt-2" type="submit" id="button-addon2">Filter</button>
+            </div>
+        </form>
+    </div>
+<!-- row -->
+</div>
+<br>
+
+<!-- CARDS -->
+<div class="row">
     <div class="col-lg-4">
-
         <div class="card border-primary mb-3" style="max-width: 20rem;">
             <div class="card-header">Cash Flow</div>
             <div class="card-body">
@@ -35,14 +58,10 @@
                 <div class="mb-2"></div>
             </div>
         </div>
-
     </div>
-
-    <!-- row -->
+<!-- row -->
 </div>
 {% endblock %}
 
-<!--
-    How may I align text to the left and text to the right in the same line?
-    https://stackoverflow.com/questions/12438339/how-may-i-align-text-to-the-left-and-text-to-the-right-in-the-same-line
--->
+<!--How may I align text to the left and text to the right in the same line?-->
+<!--https://stackoverflow.com/questions/12438339/how-may-i-align-text-to-the-left-and-text-to-the-right-in-the-same-line-->
