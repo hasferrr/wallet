@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit
+{% endblock %}
+
+{% block main %}
+<!-- TABLE -->
+<h4 class="mb-5 fw-bold">{{ label }}</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th class="text-start">Category</th>
+            <th class="text-start">Date</th>
+            <th class="text-start">Time</th>
+            <th class="text-start">Description</th>
+            <th class="text-end">Income</th>
+            <th class="text-end">Expense</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="text-start">{{ record[2] }}</td>
+            <td class="text-start">{{ record[4] }}</td>
+            <td class="text-start">{{ record[5] }}</td>
+            <td class="text-start"><em>{{ record[6] }}</em></td>
+            <td class="text-end text-success">{% if record[3] in "Income" %}{{ record[7] }}{% else %}{% endif %}</td>
+            <td class="text-end text-danger">{% if record[3] not in "Income" %}{{ record[7] }}{% else %}{% endif %}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4 class="m-5 fw-bold">Edit</h4>
+<form action="/record" method="post">
+    <input type="hidden" name="edit_error_code" value="{{ random_id }}">
+    {% include "include/record.html" %}
+</form>
+{% endblock %}

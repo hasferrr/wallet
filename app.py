@@ -108,6 +108,13 @@ def record():
     # User reached route via POST
     if request.method == 'POST':
 
+        # Ensure that user is editing or recording an account
+        random_id = request.form.get('edit_error_code')
+        if not random_id == None:
+            edit_mode = True
+        else:
+            edit_mode = False
+
         btnradio = request.form.get('btnradio')
         account_name = request.form.get('account_name')
         amount = request.form.get('amount')
@@ -147,10 +154,14 @@ def record():
             return render_template("error.html", error="too long")
 
         # Store to database
-        cur.execute("INSERT INTO records (user_id,account_name,account_category,date,time,description,amount,random_id) VALUES (?,?,?,?,?,?,?,?)",
-                    (session["user_id"], account_name, btnradio, date, time, description, amount, id_generator()))
-        con.commit()
+        if edit_mode == False:
+            cur.execute("INSERT INTO records (user_id,account_name,account_category,date,time,description,amount,random_id) VALUES (?,?,?,?,?,?,?,?)",
+                        (session["user_id"], account_name, btnradio, date, time, description, amount, id_generator()))
+        else:
+            cur.execute("UPDATE records SET account_name = ?, account_category = ?, date = ?, time = ?, description = ?, amount = ? WHERE user_id = ? AND random_id = ?",
+                        (account_name, btnradio, date, time, description, amount, session["user_id"], random_id))
 
+        con.commit()
         con.close()
         return redirect("/")
 
@@ -171,6 +182,41 @@ def delete():
 
     con.close()
     return redirect("/")
+
+
+@app.route("/edit", methods=["POST"])
+def edit():
+    """Edit record"""
+    random_id = request.form.get("edit_error_code")
+
+    con, cur = connect_db()
+    res = cur.execute("SELECT * FROM records WHERE user_id = ? AND random_id = ?", (session["user_id"], random_id))
+    res = list(res)
+
+    # Format amount as IDR
+    records = []
+    for i in res:
+        i = list(i)
+        i[7] = idr(i[7])
+        records.append(i)
+    record = records[0]
+
+    # [9,1,'Vehicle','Expense','2022-09-01','19:42','bensin','Rp50.000,00','asfdas']
+
+    account_name = record[2]
+    if record[3] == 'Income':
+        income_checked = 'checked'
+        expense_checked = ''
+    else:
+        income_checked = ''
+        expense_checked = 'checked'
+    date_now = record[4]
+    time_now = record[5]
+    decs_now = record[6]
+    amount_now = res[0][7]
+
+    con.close()
+    return render_template("edit.html", record=record, random_id=random_id, amount_now=amount_now, decs_now=decs_now, time_now=time_now, date_now=date_now, expense_checked=expense_checked, income_checked=income_checked)
 
 
 @app.errorhandler(404)

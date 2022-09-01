@@ -6,9 +6,9 @@
         <div class="col-lg-4">
             <label class="form-label mt-1">Type</label><br>
             <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" name="btnradio" value="Income" id="btnradio1" autocomplete="off" required>
+                <input type="radio" class="btn-check" name="btnradio" value="Income" id="btnradio1" autocomplete="off" required {{income_checked}}>
                 <label class="btn btn-outline-primary" for="btnradio1">Income</label>
-                <input type="radio" class="btn-check" name="btnradio" value="Expense" id="btnradio2" autocomplete="off">
+                <input type="radio" class="btn-check" name="btnradio" value="Expense" id="btnradio2" autocomplete="off" {{expense_checked}}>
                 <label class="btn btn-outline-primary" for="btnradio2">Expense</label>
             </div>
         </div>
@@ -51,7 +51,7 @@
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <span class="input-group-text">Rp</span>
-                        <input required name="amount" type="number" min="1" class="form-control" aria-label="Amount (to the nearest dollar)">
+                        <input required name="amount" type="number" min="1" class="form-control" aria-label="Amount (to the nearest dollar)" value="{{amount_now}}">
                     </div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
         <!-- description -->
         <div class="col-lg-8 mb-3">
             <label class="form-label mt-1">Description</label>
-            <input name="description" type="text" class="form-control">
+            <input name="description" type="text" class="form-control" value="{{ decs_now }}">
         </div>
 
     </div>
