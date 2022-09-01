@@ -167,7 +167,7 @@ def delete():
     # Delete row from database
     con, cur = connect_db()
     cur.execute("DELETE FROM records WHERE user_id = ? AND id = ?", (session["user_id"], delete_id))
-    con.commit()
+    #con.commit()
 
     con.close()
     return redirect("/")
