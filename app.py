@@ -4,12 +4,14 @@ from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
 
 from account import account_page
+from report import report_page
 from helpers import connect_db, idr, get_date_now, get_time_now, date_validation, time_validation, id_generator, account_name_list
 
 
 # Configure app
 app = Flask(__name__)
 app.register_blueprint(account_page)
+app.register_blueprint(report_page)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Configure session

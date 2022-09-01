@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Report
+{% endblock %}
+
+{% block main %}
+<h4 class="mb-5 fw-bold">Report & Statistics</h4>
+
+<div class="row">
+
+    <div class="col-lg-4">
+
+        <div class="card border-primary mb-3" style="max-width: 20rem;">
+            <div class="card-header">Cash Flow</div>
+            <div class="card-body">
+                <p class="mb-1 text-start"><small>This Year</small></p>
+                <p class="card-text text-start"><span class="fw-bold">+ Rp2.000.000,00</span></p>
+                <!--Income-->
+                <p class="mb-1 text-start"><small>
+                    Income
+                    <span style="float:right;">Rp3.000.000</span>
+                </small></p>
+                <div class="progress">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <!--Expense-->
+                <p class="mb-1 text-start"><small>
+                        Expenses
+                        <span style="float:right;">Rp1.000.000</span>
+                </small></p>
+                <div class="progress">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 33%;" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="mb-2"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- row -->
+</div>
+{% endblock %}
+
+<!--
+    How may I align text to the left and text to the right in the same line?
+    https://stackoverflow.com/questions/12438339/how-may-i-align-text-to-the-left-and-text-to-the-right-in-the-same-line
+-->
