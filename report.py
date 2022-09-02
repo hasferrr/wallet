@@ -44,22 +44,44 @@ def report():
         total_expense += i[1]
 
     # Format amount as IDR
-    income_list_amount_formatted = list(income_list_totalamount)
+    income_list_amount_f = list(income_list_totalamount)
     i = 0
-    length = len(income_list_amount_formatted)
+    length = len(income_list_amount_f)
     while i < length:
-        income_list_amount_formatted[i][1] = idr(income_list_amount_formatted[i][1])
+        income_list_amount_f[i][1] = idr(income_list_amount_f[i][1])
         i += 1
 
-    expense_list_amount_formatted = list(expense_list_totalamount)
+    expense_list_amount_f = list(expense_list_totalamount)
     i = 0
-    length = len(expense_list_amount_formatted)
+    length = len(expense_list_amount_f)
     while i < length:
-        expense_list_amount_formatted[i][1] = idr(expense_list_amount_formatted[i][1])
+        expense_list_amount_f[i][1] = idr(expense_list_amount_f[i][1])
         i += 1
 
-    total_income_formatted = idr(total_income)
-    total_expense_formatted = idr(total_expense)
+    total_income_f = idr(total_income)
+    total_expense_f = idr(total_expense)
+
+    # Get percentage
+    if total_income > total_expense:
+        income_percent = 100
+        try:
+            expense_percent = round(total_expense / total_income, 2) * 100
+        except ZeroDivisionError:
+            expense_percent = 0
+        diff = "+ " + idr(total_income - total_expense)
+
+    elif total_income < total_expense:
+        expense_percent = 100
+        try:
+            income_percent = round(total_income / total_expense, 2) * 100
+        except ZeroDivisionError:
+            income_percent = 0
+        diff = "- " + idr(total_expense - total_income)
+
+    else:
+        income_percent = 100
+        expense_percent = 100
+        diff = idr(0)
 
     con.close()
-    return render_template("report.html")
+    return render_template("report.html", total_income_f=total_income_f, total_expense_f=total_expense_f, diff=diff, income_percent=income_percent, expense_percent=expense_percent)
