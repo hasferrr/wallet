@@ -12,10 +12,10 @@
     <div class="col-lg-1 mb-3"></div>
     <div class="col-lg-5 mb-3">
         <form action="/report" method="post">
-            <button onclick="location.href = '/report';" class="btn btn-primary m-2">This Month</button>
+            <button name="filter_btn" value="This Month" type="submit" class="btn btn-primary m-2">This Month</button>
             <button name="filter_btn" value="Last 30D" type="submit" class="btn btn-primary m-2">Last 30D</button>
             <button name="filter_btn" value="This Year" type="submit" class="btn btn-primary m-2">This Year</button>
-            <button name="filter_btn" value="All time" type="submit" class="btn btn-primary m-2">All time</button>
+            <button name="filter_btn" value="All Time" type="submit" class="btn btn-primary m-2">All Time</button>
         </form>
     </div>
 
@@ -39,7 +39,7 @@
         <div class="card border-primary mb-3" style="max-width: 20rem;">
             <div class="card-header">Cash Flow</div>
             <div class="card-body">
-                <p class="mb-1 text-start"><small>All Time</small></p>
+                <p class="mb-1 text-start"><small>{{ label }}</small></p>
                 <p class="card-text text-start"><span class="fw-bold">{{ diff }}</span></p>
                 <!--Income-->
                 <p class="mb-1 text-start"><small>
@@ -67,23 +67,18 @@
         <div class="card border-primary mb-3">
             <div class="card-header">Reports</div>
             <div class="card-body">
-                <p class="mb-1 text-start"><small>All Time
-                    <span class="mt-1" style="float:right;">vs past period</span>
-                </small></p>
+                <p class="mb-1 text-start"><small>{{ label }}</small></p>
 
 
                 <!-- INCOME TABLE -->
-                <p class="card-text text-start">
-                    <span class="fw-bold">{{ diff }}</span>
-                    <span class="fw-bold" style="float:right;">??%</span>
-                </p>
+                <p class="card-text text-start"><span class="fw-bold">{{ diff }}</span></p>
                 <h4 class="mb-5 fw-bold">Income & Expenses</h4>
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th class="text-start">Income</th>
                             <th class="text-end">Amount</th>
-                            <th class="text-end" style="width:20%;"></th>
+                            <th class="text-end" style="width:15%;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,7 +86,7 @@
                         <tr>
                             <td class="text-start">{{ i[0] }}</td>
                             <td class="text-end">{{ i[1] }}</td>
-                            <td class="text-end"></td>
+                            <td class="text-end"><small>{{ i[2] }}%</small></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -99,7 +94,7 @@
                         <tr>
                             <td class="border-0"></td>
                             <td class="border-0 fw-bold text-end">{{ total_income_f }}</td>
-                            <td class="border-0 fw-bold text-end">?%</td>
+                            <td class="border-0 fw-bold text-end"><small>100%</small></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -111,7 +106,7 @@
                         <tr>
                             <th class="text-start">Expenses</th>
                             <th class="text-end">Amount</th>
-                            <th class="text-end" style="width:20%;"></th>
+                            <th class="text-end" style="width:15%;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -119,7 +114,7 @@
                         <tr>
                             <td class="text-start">{{ i[0] }}</td>
                             <td class="text-end">{{ i[1] }}</td>
-                            <td class="text-end"></td>
+                            <td class="text-end"><small>{{ i[2] }}%</small></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -127,7 +122,7 @@
                         <tr>
                             <td class="border-0"></td>
                             <td class="border-0 fw-bold text-end">{{ total_expense_f }}</td>
-                            <td class="border-0 fw-bold text-end">?%</td>
+                            <td class="border-0 fw-bold text-end"><small>100%</small></td>
                         </tr>
                     </tfoot>
                 </table>
