@@ -79,8 +79,12 @@ def report():
                             (session["user_id"], "Expense", date_filter))
         expense_name_amount = list(res.fetchall())
 
+
+
     # Get all account_name and place to store total amount for each account ---> [['Income', 0], ['Gifts', 0], ['Others', 0]]
     income_list_totalamount, expense_list_totalamount = account_name_list('', 0.0)
+
+
 
     # Store to LIST OF TOTAL AMOUNT for each account, and get its TOTAL
     for i in income_name_amount:
@@ -101,6 +105,8 @@ def report():
     for i in expense_list_totalamount:
         total_expense += i[1]
 
+
+
     # Get percentage per category (Income/Expense)
     j = 0
     for i in income_list_totalamount:
@@ -118,23 +124,37 @@ def report():
             expense_list_totalamount[j].append(0)
         j += 1
 
+
+
     # Format amount as IDR
-    income_list_amount_f = list(income_list_totalamount)
+    # Copy list
+    income_list_amount_f = []
+    for i in income_list_totalamount:
+        income_list_amount_f.append(list(i))
+
+    # Format amount
     i = 0
     length = len(income_list_amount_f)
     while i < length:
         income_list_amount_f[i][1] = idr(income_list_amount_f[i][1])
         i += 1
 
-    expense_list_amount_f = list(expense_list_totalamount)
+    expense_list_amount_f = []
+    for i in expense_list_totalamount:
+        expense_list_amount_f.append(list(i))
+
+    # Format amount
     i = 0
     length = len(expense_list_amount_f)
     while i < length:
         expense_list_amount_f[i][1] = idr(expense_list_amount_f[i][1])
         i += 1
 
+    # Format total amount
     total_income_f = idr(total_income)
     total_expense_f = idr(total_expense)
+
+
 
     # Get cash flow bar percentage
     if total_income > total_expense:
@@ -157,6 +177,8 @@ def report():
         income_percent = 100
         expense_percent = 100
         diff = idr(0)
+
+
 
     con.close()
     return render_template("report.html", total_income_f=total_income_f, total_expense_f=total_expense_f, diff=diff, income_percent=income_percent, expense_percent=expense_percent, income_list_amount_f=income_list_amount_f, expense_list_amount_f=expense_list_amount_f, label=label)
