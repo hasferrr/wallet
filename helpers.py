@@ -5,6 +5,8 @@ from string import ascii_letters, digits
 from random import choice
 
 from flask import redirect, session
+import matplotlib.pyplot as plt
+from numpy import arange as arange
 
 
 def login_required(f):
@@ -128,3 +130,51 @@ def account_name_list(selected='', plug=''):
 
     con.close()
     return income_list, expense_list
+
+
+def bublesort_list_of_list_rev(input):
+
+    # Copy list of list
+    array = []
+    for i in input:
+        array.append(list(i))
+
+    # Bubble sort
+    length = len(array)
+    swap_counter = -1
+
+    while swap_counter != 0:
+        swap_counter = 0
+        i = 0
+        while i < length - 1:
+            # If 2 adjacent array not in order, swap them and add 1 to swap_counter
+            if array[i][1] > array[i + 1][1]:
+                temp = array[i]
+                array[i] = array[i + 1]
+                array[i + 1] = temp
+                del temp
+                swap_counter += 1
+            i += 1
+
+    return array
+
+
+def horizontal_bar(height, bars, file_name="foo", bar_color='#69b3a2'):
+    """
+    Plotting a Horizontal Barplot using Matplotlib
+    https://www.python-graph-gallery.com/2-horizontal-barplot
+    """
+    # Example
+    # height = [30, 120, 5505, 180, 450]
+    # bars = ('A', 'B', 'C', 'D', 'E')
+    y_pos = arange(len(bars))
+
+    # Create horizontal bars
+    plt.barh(y_pos, height, color=bar_color)
+
+    # Create names on the x-axis
+    plt.yticks(y_pos, bars)
+
+    # Save graphic
+    plt.tight_layout()
+    plt.savefig("static/img/" + file_name + ".png")

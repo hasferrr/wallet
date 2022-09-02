@@ -1,8 +1,9 @@
+import os
 from datetime import datetime
 
 from flask import Blueprint, render_template, request, redirect, session
 
-from helpers import login_required, connect_db, account_name_list, idr
+from helpers import login_required, connect_db, account_name_list, idr, bublesort_list_of_list_rev, horizontal_bar
 
 
 report_page = Blueprint('report_page', __name__, template_folder='templates')
@@ -180,5 +181,23 @@ def report():
 
 
 
+    # Sort list of list
+    income_sorted = bublesort_list_of_list_rev(income_list_totalamount)
+    expense_sorted = bublesort_list_of_list_rev(expense_list_totalamount)
+
+    # Separate list
+    bars_expense = []
+    height_expense = []
+    for i in expense_sorted:
+        bars_expense.append(i[0])
+        height_expense.append(i[1])
+
+    # Plotting a Horizontal Barplot
+    img_e = str(session["user_id"])
+    if os.path.exists("static/img/" + img_e + ".png"):
+        os.remove("static/img/" + img_e + ".png")
+    horizontal_bar(height_expense, bars_expense, img_e, bar_color='#e74c3c')
+
+
     con.close()
-    return render_template("report.html", total_income_f=total_income_f, total_expense_f=total_expense_f, diff=diff, income_percent=income_percent, expense_percent=expense_percent, income_list_amount_f=income_list_amount_f, expense_list_amount_f=expense_list_amount_f, label=label)
+    return render_template("report.html", total_income_f=total_income_f, total_expense_f=total_expense_f, diff=diff, income_percent=income_percent, expense_percent=expense_percent, income_list_amount_f=income_list_amount_f, expense_list_amount_f=expense_list_amount_f, label=label, img_e=img_e)
