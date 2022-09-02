@@ -106,7 +106,7 @@ def id_generator(size=32, chars=ascii_letters + digits):
     return ''.join(choice(chars) for i in range(size))
 
 
-def account_name_list(selected=''):
+def account_name_list(selected='', plug=''):
     # Query
     con, cur = connect_db()
     res = cur.execute("SELECT * FROM account")
@@ -119,12 +119,12 @@ def account_name_list(selected=''):
             if i[1] == selected:
                 income_list.append([i[1], 'selected'])
             else:
-                income_list.append([i[1], ''])
+                income_list.append([i[1], plug])
         else:
             if i[1] == selected:
                 expense_list.append([i[1], 'selected'])
             else:
-                expense_list.append([i[1], ''])
+                expense_list.append([i[1], plug])
 
     con.close()
     return income_list, expense_list
