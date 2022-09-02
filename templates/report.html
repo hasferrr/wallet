@@ -13,9 +13,9 @@
     <div class="col-lg-5 mb-3">
         <form action="/report" method="post">
             <button onclick="location.href = '/report';" class="btn btn-primary m-2">This Month</button>
-            <button name="filter_btn" type="submit" class="btn btn-primary m-2">Last 30D</button>
-            <button name="filter_btn" type="submit" class="btn btn-primary m-2">This Year</button>
-            <button name="filter_btn" type="submit" class="btn btn-primary m-2">All time</button>
+            <button name="filter_btn" value="Last 30D" type="submit" class="btn btn-primary m-2">Last 30D</button>
+            <button name="filter_btn" value="This Year" type="submit" class="btn btn-primary m-2">This Year</button>
+            <button name="filter_btn" value="All time" type="submit" class="btn btn-primary m-2">All time</button>
         </form>
     </div>
 
@@ -34,6 +34,7 @@
 
 <!-- CARDS -->
 <div class="row">
+
     <div class="col-lg-4">
         <div class="card border-primary mb-3" style="max-width: 20rem;">
             <div class="card-header">Cash Flow</div>
@@ -60,15 +61,80 @@
             </div>
         </div>
     </div>
+
+
     <div class="col-lg-8">
         <div class="card border-primary mb-3">
             <div class="card-header">Reports</div>
             <div class="card-body">
-                <p class="mb-1 text-start"><small>This Year</small></p>
-                <p class="text-start">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <p class="mb-1 text-start"><small>All Time
+                    <span class="mt-1" style="float:right;">vs past period</span>
+                </small></p>
+
+
+                <!-- INCOME TABLE -->
+                <p class="card-text text-start">
+                    <span class="fw-bold">{{ diff }}</span>
+                    <span class="fw-bold" style="float:right;">??%</span>
+                </p>
+                <h4 class="mb-5 fw-bold">Income & Expenses</h4>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-start">Income</th>
+                            <th class="text-end">Amount</th>
+                            <th class="text-end" style="width:20%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in income_list_amount_f %}
+                        <tr>
+                            <td class="text-start">{{ i[0] }}</td>
+                            <td class="text-end">{{ i[1] }}</td>
+                            <td class="text-end"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="border-0 fw-bold text-end">{{ total_income_f }}</td>
+                            <td class="border-0 fw-bold text-end">?%</td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+
+                <!-- EXPENSES TABLE -->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-start">Expenses</th>
+                            <th class="text-end">Amount</th>
+                            <th class="text-end" style="width:20%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in expense_list_amount_f %}
+                        <tr>
+                            <td class="text-start">{{ i[0] }}</td>
+                            <td class="text-end">{{ i[1] }}</td>
+                            <td class="text-end"></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="border-0"></td>
+                            <td class="border-0 fw-bold text-end">{{ total_expense_f }}</td>
+                            <td class="border-0 fw-bold text-end">?%</td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
         </div>
     </div>
+
 <!-- row -->
 </div>
 {% endblock %}
