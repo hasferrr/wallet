@@ -132,33 +132,6 @@ def account_name_list(selected='', plug=''):
     return income_list, expense_list
 
 
-def bublesort_list_of_list_rev(input):
-
-    # Copy list of list
-    array = []
-    for i in input:
-        array.append(list(i))
-
-    # Bubble sort
-    length = len(array)
-    swap_counter = -1
-
-    while swap_counter != 0:
-        swap_counter = 0
-        i = 0
-        while i < length - 1:
-            # If 2 adjacent array not in order, swap them and add 1 to swap_counter
-            if array[i][1] > array[i + 1][1]:
-                temp = array[i]
-                array[i] = array[i + 1]
-                array[i + 1] = temp
-                del temp
-                swap_counter += 1
-            i += 1
-
-    return array
-
-
 def horizontal_bar(height, bars, file_name="foo", bar_color='#69b3a2'):
     """
     Plotting a Horizontal Barplot using Matplotlib
