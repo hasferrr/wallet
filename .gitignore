@@ -193,7 +193,6 @@ htmlcov/
 # hasfer
 /*_session/
 static/img/*.png
-!static/img/1e.png
 !static/img/blank.png
 
 test.py
