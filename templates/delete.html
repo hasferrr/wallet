@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sayonara?
+{% endblock %}
+
+{% block main %}
+<h2 class="mt-0 mb-5">Delete Account</h2>
+<form action="/settings/delete" method="post">
+    <div class="mb-3">
+        <input class="form-control mx-auto w-auto" name="password" placeholder="Type your password" type="password">
+    </div>
+    <div class="mb-3">
+        <input class="form-control mx-auto w-auto" name="sayonara" placeholder="type exactly 'sayonara'" type="text">
+    </div>
+    <input name="del" class="btn btn-danger" type="submit" value="Delete">
+</form>
+{% endblock %}

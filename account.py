@@ -58,6 +58,7 @@ def logout():
     # Delete temp files
     del_temp_files()
 
+    # Pop session
     if session.get("user_id") is not None:
         session.pop("user_id")
 
@@ -237,3 +238,55 @@ def changeusername():
         user = cur.execute("SELECT username FROM users WHERE id = ?", (session["user_id"],)).fetchall()[0][0]
         con.close()
         return render_template("changeusername.html", user=user)
+
+
+@account_page.route("/settings/delete", methods=["GET", "POST"])
+@login_required
+def delete_account():
+    """Delete username, hash, records from database"""
+
+    # User reached route via GET
+    if request.method == "GET":
+        return render_template("delete.html")
+
+    # User reached route via POST
+    else:
+
+        # If user click the button
+        if request.form.get("del"):
+
+            # Password verif
+            if not request.form.get("password"):
+                return render_template("error.html", error="must provide password")
+            if request.form.get("sayonara") != "sayonara":
+                return render_template("error.html", error="please type 'sayonara'")
+
+            # Query user data from database
+            con, cur = connect_db()
+            rows = cur.execute("SELECT * FROM users WHERE id = ?", (session["user_id"],))
+
+            # Ensure password is correct
+            if not check_password_hash(rows.fetchall()[0][2], request.form.get("password")):
+                return render_template("error.html", error="invalid password")
+
+            # Delete all data !!!
+            # Delete temporary files
+            del_temp_files()
+
+            # Delete all records
+            cur.execute("DELETE FROM records WHERE user_id = ?", (session["user_id"],))
+
+            # Delete username and hash, but keep the primary key
+            cur.execute("UPDATE users SET username = '-', hash = '-' WHERE id = ?", (session["user_id"],))
+
+            # Commit and close connection
+            con.commit()
+            con.close()
+
+            # Clear session
+            session.clear()
+
+            return redirect("/")
+
+        else:
+            return render_template("error.html", error="guess what")
