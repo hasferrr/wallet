@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Export
+{% endblock %}
+
+{% block main %}
+<h4 class="mb-4 fw-bold">Export data to <br> csv file</h4>
+
+<form action="/export" method="post">
+    <button name="export_now" type="submit" class="btn btn-primary">download</button>
+</form>
+{% endblock %}

@@ -5,6 +5,7 @@ from flask_session import Session
 
 from account import account_page
 from report import report_page
+from export import export_page
 from helpers import login_required, connect_db, idr, get_date_now, get_time_now, date_validation, time_validation, id_generator, account_name_list
 
 
@@ -15,6 +16,7 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 # Blueprints
 app.register_blueprint(account_page)
 app.register_blueprint(report_page)
+app.register_blueprint(export_page)
 
 # Configure session
 app.config["SESSION_PERMANENT"] = False
