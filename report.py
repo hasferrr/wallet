@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Blueprint, render_template, request, redirect, session
+from flask import Blueprint, render_template, request, session
 
 from helpers import login_required, connect_db, account_name_list, idr, horizontal_bar
 

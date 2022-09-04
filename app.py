@@ -5,14 +5,16 @@ from flask_session import Session
 
 from account import account_page
 from report import report_page
-from helpers import connect_db, idr, get_date_now, get_time_now, date_validation, time_validation, id_generator, account_name_list
+from helpers import login_required, connect_db, idr, get_date_now, get_time_now, date_validation, time_validation, id_generator, account_name_list
 
 
 # Configure app
 app = Flask(__name__)
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+# Blueprints
 app.register_blueprint(account_page)
 app.register_blueprint(report_page)
-app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Configure session
 app.config["SESSION_PERMANENT"] = False
@@ -110,6 +112,7 @@ def index():
 
 
 @app.route("/record", methods=["GET", "POST"])
+@login_required
 def record():
 
     # User reached route via POST
@@ -178,6 +181,7 @@ def record():
 
 
 @app.route("/delete", methods=["POST"])
+@login_required
 def delete():
     """Delete record"""
     random_id = request.form.get("error_code")
@@ -192,6 +196,7 @@ def delete():
 
 
 @app.route("/edit", methods=["POST"])
+@login_required
 def edit():
     """Edit record"""
     random_id = request.form.get("edit_error_code")
