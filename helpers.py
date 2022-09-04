@@ -3,6 +3,8 @@ from functools import wraps
 from datetime import datetime
 from string import ascii_letters, digits
 from random import choice
+from os.path import exists
+from os import remove
 
 from flask import redirect, session
 import matplotlib.pyplot as plt
@@ -151,3 +153,14 @@ def horizontal_bar(height, bars, file_name="foo", bar_color='#69b3a2'):
     # Save graphic
     plt.tight_layout()
     plt.savefig("static/img/" + file_name + ".png")
+
+
+def del_temp_files():
+    # Delete temp files (exported csv file and plot image)
+    if session.get("user_id"):
+
+        if exists(f"static/img/{session['user_id']}e.png"):
+            remove(f"static/img/{session['user_id']}e.png")
+
+        if exists(f"export/{session['user_id']}.csv"):
+            remove(f"export/{session['user_id']}.csv")

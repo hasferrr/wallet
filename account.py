@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, session, flash
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import login_required, connect_db, username_validation
+from helpers import login_required, connect_db, username_validation, del_temp_files
 
 """
 Modular Applications with Blueprints
@@ -54,6 +54,9 @@ def login():
 @login_required
 def logout():
     """Forget user id"""
+
+    # Delete temp files
+    del_temp_files()
 
     if session.get("user_id") is not None:
         session.pop("user_id")
