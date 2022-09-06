@@ -184,7 +184,6 @@ def report():
     bars_expense = []
     height_expense = []
     for i in reversed(expense_list_totalamount):
-        print(i)
         bars_expense.append(i[0])
         height_expense.append(i[1])
 
