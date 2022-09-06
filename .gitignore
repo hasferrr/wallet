@@ -195,6 +195,7 @@ htmlcov/
 
 static/img/*.png
 !static/img/blank.png
+!static/img/demo*.png
 
 export/*
 !export/blank.csv
