@@ -154,6 +154,11 @@ def horizontal_bar(height, bars, file_name="foo", bar_color='#69b3a2'):
     plt.tight_layout()
     plt.savefig("static/img/" + file_name + ".png")
 
+    # Clear plot
+    plt.close()
+    plt.cla()
+    plt.clf()
+
 
 def del_temp_files():
     # Delete temp files (exported csv file and plot image)
