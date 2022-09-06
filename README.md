@@ -60,10 +60,31 @@ Display every record on the Home in the form of a table.
 
 ### Export
 
-All data containing `category`, `type`, `date`, `time`, `description`, and `amount` can be exported to a `CSV file` and downloaded by the user.
+All data containing `category`, `type`, `date`, `time`, `description`, and `amount` can be exported to a ***CSV file*** and downloaded by the user.
 
 ### Settings
 
 1. Change the username
 1. Change the password
 1. Delete the account and all data
+
+## Project Files Description
+
+Wallet is a web application created using `Python3`, `Flask`, and `SQLite3`.
+
+> This project was created to complete the Final Project on the CS50x course
+
+**Python Files:**
+
+- **[app.py](app.py)** - contains the configuration of the Flask app; Blueprint that links to `account.py`, `export.py`, and `report.py`; and sessions. Financial data will be recorded here. Edit, Delete records route, and error handlers are also declared here.
+- **[account.py](account.py)** - contains routes for `register`, `login`, `logout`, and `settings` (which contains change username, change password, and delete account routes)
+- **[export.py](export.py)** - serves to export data where the data is based on the logged-in user, retrieved from the database using `sqlite3`, and writes a CSV file that then can be downloaded by the user.
+- **[report.py](report.py)** - contains the report page where the data is first queried from the database filtered by date. Furthermore, the data is processed and calculated in this python file such as summing and formatting total income. Then, a horizontal bar plot is created using `myplotlib.pyplot` plot and saved as an image, which is then displayed in an HTML file.
+- **[helpers.py](helpers.py)** - contains function declarations for other python files to implement abstractions and minimize the use of the same code for different implementations.
+
+**Templates:**
+
+- [layout.html](/templates/layout.html) - is an outline arrangement of all HTML files. All HTML files extend this file to display the same head, navbar, and other settings for all HTML files.
+- [HTML file inside `/templates/include/` directory](/templates/include/) - does not extend layout.html. The file is used for several other HTML files with the Jinja2 include keyword like `{% include "include/record.html" %}` in the HTML file section that wants to include this HTML file code.
+- [Other HTML files](/templates/) - functions like the name of the HTML file itself and will be rendered from a python file using Flask's `render_template`.
+- CSS - I am using Bootstrap 5 with `Flaty` theme from [Bootswatch](https://bootswatch.com/)
