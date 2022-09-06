@@ -86,6 +86,7 @@ Wallet is a web application created using `Python3`, `Flask`, and `SQLite3`.
 - **[HTML file inside `/templates/include/` directory](/templates/include/)** - does not extend layout.html. The file is used for several other HTML files with the Jinja2 `include` keyword like `{% include "include/record.html" %}` in the HTML file section that wants to include this HTML file code.
 - **[Other HTML files](/templates/)** - functions like the name of the HTML file itself and will be rendered from a python file using Flask's `render_template`.
 - **[CSS](/static/light.css)** - I am using Bootstrap 5 with `Flaty` theme from [Bootswatch](https://bootswatch.com/).
+- **[JS](templates/include/record.html)** - I only use JavaScript code on [record.html](templates/include/record.html). So, I do not separate the script into a JS file in the static directory.
 
 Why do I just replace the `username` and `hash` in the users table with the **`-`** character instead of deleting the row from the database when the user deletes the account? The reason is that the `session` I am using is the session user's id which means that the `id` of the user will be taken as a session. However, the id in the users table is ***autoincremented***. Therefore, if a row is deleted from the `users` table when the user deletes his/her account, the `id` under it will be reduced so that other users will use the session ***user minus 1*** of his/her user id, not his/her own id. That's the reason why I didn't delete the row from the `users` table.
 
