@@ -110,25 +110,42 @@ def id_generator(size=32, chars=ascii_letters + digits):
     return ''.join(choice(chars) for i in range(size))
 
 
-def account_name_list(selected='', plug=''):
+def account_name_list(selected='', plug='', normal_mode=False):
     # Query
     con, cur = connect_db()
-    res = cur.execute("SELECT * FROM account")
 
-    # Assign to list for each account_name (category) and its selected option if any
-    income_list = []
-    expense_list = []
-    for i in res:
-        if i[0] == 'Income':
-            if i[1] == selected:
-                income_list.append([i[1], 'selected'])
+    # List of lists (2 dimensional list)
+    if normal_mode == False:
+        res = cur.execute("SELECT * FROM account")
+
+        # Assign to list for each account_name (category) and its selected option if any
+        income_list = []
+        expense_list = []
+        for i in res:
+            if i[0] == 'Income':
+                if i[1] == selected:
+                    income_list.append([i[1], 'selected'])
+                else:
+                    income_list.append([i[1], plug])
             else:
-                income_list.append([i[1], plug])
-        else:
-            if i[1] == selected:
-                expense_list.append([i[1], 'selected'])
-            else:
-                expense_list.append([i[1], plug])
+                if i[1] == selected:
+                    expense_list.append([i[1], 'selected'])
+                else:
+                    expense_list.append([i[1], plug])
+
+    # List of string (account_name)
+    else:
+        income_list = []
+        expense_list = []
+
+        # Assign to list for each account_name
+        res = cur.execute("SELECT name FROM account WHERE category = 'Income'")
+        for i in res:
+            income_list.append(i[0])
+
+        res = cur.execute("SELECT name FROM account WHERE category = 'Expense'")
+        for i in res:
+            expense_list.append(i[0])
 
     con.close()
     return income_list, expense_list

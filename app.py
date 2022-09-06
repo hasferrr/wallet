@@ -140,15 +140,16 @@ def record():
             return render_template("error.html", error="invalid type")
 
         # Check category / account_name
-        con, cur = connect_db()
-        res = cur.execute("SELECT name FROM account")
+        income_list, expense_list = account_name_list(normal_mode=True)
+        print(income_list)
 
-        account_name_list = []
-        for i in res:
-            account_name_list.append(i[0])
-
-        if account_name not in account_name_list:
-            return render_template("error.html", error="invalid account name")
+        # Ensure account type is appropriate to account category
+        if btnradio == 'Income':
+            if account_name not in income_list:
+                return render_template("error.html", error="invalid account name")
+        else:
+            if account_name not in expense_list:
+                return render_template("error.html", error="invalid account name")
 
         # Check amount
         if float(amount) < 0:
@@ -166,6 +167,7 @@ def record():
             return render_template("error.html", error="too long")
 
         # Store to database
+        con, cur = connect_db()
         if edit_mode == False:
             cur.execute("INSERT INTO records (user_id,account_name,account_category,date,time,description,amount,random_id) VALUES (?,?,?,?,?,?,?,?)",
                         (session["user_id"], account_name, btnradio, date, time, description, amount, id_generator()))
