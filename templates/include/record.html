@@ -18,18 +18,45 @@
             <div class="form-group">
                 <label class="form-label mt-1">Category</label>
                 <select required name="account_name" class="form-select" id="exampleSelect1">
-                    <option value="" disabled {{ default_selected }}>--- Income ---</option>
-                    {% for i in income_list %}
-                    <option value="{{ i[0] }}" {{ i[1] }}>{{ i[0] }}</option>
-                    {% endfor %}
-                    <option disabled>--- Expense ---</option>
-                    {% for i in expense_list %}
-                    <option value="{{ i[0] }}" {{ i[1] }}>{{ i[0] }}</option>
-                    {% endfor %}
+                    <option value="" disabled {{ default_selected }}>--- Select account type first ---</option>
                 </select>
             </div>
         </div>
+        <script>
+            // Option of the income/expenses list in HTML code with Jinja2
+            let income_list = `
+                <option value="" disabled {{ default_selected }}>--- Income ---</option>
+                {% for i in income_list %}
+                <option value="{{ i[0] }}" {{ i[1] }}>{{ i[0] }}</option>
+                {% endfor %}`;
+            let expense_list = `
+                <option value="" disabled {{ default_selected }}>--- Expense ---</option>
+                {% for i in expense_list %}
+                <option value="{{ i[0] }}" {{ i[1] }}>{{ i[0] }}</option>
+                {% endfor %}`
 
+            // If user click the Income or Expense radio button (type of account)
+            document.querySelector("#btnradio1").addEventListener("click", function(){
+                document.querySelector("#exampleSelect1").innerHTML = income_list;
+            });
+            document.querySelector("#btnradio2").addEventListener("click", function(){
+                document.querySelector("#exampleSelect1").innerHTML = expense_list;
+            });
+
+            /* Used in Edit mode only */
+            // If income radio button was selected, then display income list
+            // If expense radio button was selected, then display expense list
+            document.addEventListener("DOMContentLoaded", function(){
+                if (document.querySelector("#btnradio1").hasAttribute('checked'))
+                    {
+                        document.querySelector("#exampleSelect1").innerHTML = income_list;
+                    }
+                else if (document.querySelector("#btnradio2").hasAttribute('checked'))
+                    {
+                        document.querySelector("#exampleSelect1").innerHTML = expense_list;
+                    }
+            });
+        </script>
     </div>
 
 

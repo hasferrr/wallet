@@ -206,10 +206,14 @@ def edit():
     random_id = request.form.get("edit_error_code")
 
     con, cur = connect_db()
+
+    # Query 1 row of record that want to edit
     res = cur.execute("SELECT * FROM records WHERE user_id = ? AND random_id = ?", (session["user_id"], random_id))
     res = list(res)
 
     # Format amount as IDR
+    # records is a list of a list ---> [[id, user_id, 'Food', 'Expense', date, ...]]
+    # record is a list of a data ---> [id, user_id, 'Food', 'Expense', date, ...]
     records = []
     for i in res:
         i = list(i)
@@ -218,7 +222,6 @@ def edit():
     record = records[0]
 
     # Set default values, selected option, and checked radio button
-    income_list, expense_list = account_name_list(record[2])
 
     if record[3] == 'Income':
         income_checked = 'checked'
@@ -226,6 +229,8 @@ def edit():
     else:
         income_checked = ''
         expense_checked = 'checked'
+
+    income_list, expense_list = account_name_list(record[2])
 
     date_now = record[4]
     time_now = record[5]
