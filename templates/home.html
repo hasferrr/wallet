@@ -47,7 +47,7 @@
                 <div class="input-group mb-2">
                     <input name="start_date" type="date" class="form-control">
                     <input name="end_date" type="date" class="form-control">
-                    <select required name="account_name" class="form-select form-control" id="exampleSelect1">
+                    <select required name="account_name" class="form-select form-control" id="exampleSelectForFilter">
                         <option value="" disabled {{ default_selected }}>Filter by Category</option>
                         <option value="All Income">--- All Income ---</option>
                         {% for i in income_list %}
