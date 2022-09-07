@@ -1,8 +1,8 @@
 # Wallet
+#### Video Demo: https://youtu.be/5qW0vIitV0U
+#### Description: Track your income and expenses.
 
-Track your income and expenses.
-
-## Description
+## Details
 
 `Wallet` is a web application for **recording personal financial reports**, both income and expenses. This application will store the user's income and expenses with the date and time (when the user got or spent the money), category (what income or expense category), the amount in [Rupiah](https://en.wikipedia.org/wiki/Indonesian_rupiah), and description the user typed.
 
