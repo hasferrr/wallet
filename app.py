@@ -34,8 +34,8 @@ def index():
     # Connect to database
     con, cur = connect_db()
 
-    # User reached route via GET
-    if request.method == "GET":
+    # User reached route via GET or 'This Month' button was clicked (POST)
+    if request.method == "GET" or request.form.get('filter_btn') == 'This Month':
 
         year_now = str(datetime.now().year)
         month_now = str(datetime.now().month)
@@ -45,12 +45,12 @@ def index():
     # User reached route via POST
     else:
         # If all time button was clicked
-        if request.form.get('filter_btn') == 'alltime':
+        if request.form.get('filter_btn') == 'All Time':
             date_filter = '%'
             label = 'All Time'
 
         # If all this year button was clicked
-        elif request.form.get('filter_btn') == 'thisyear':
+        elif request.form.get('filter_btn') == 'This Year':
             year_now = str(datetime.now().year)
             date_filter = year_now + '%'
             label = 'This Year'
@@ -60,6 +60,11 @@ def index():
             start_date = request.form.get('start_date')
             end_date = request.form.get('end_date')
             label = 'Between ' + start_date + ' and ' + end_date
+
+        # If user filters by category
+        elif request.form.get('filter_btn') == 'filter_by_category':
+            account_name = request.form.get('account_name')
+            label = f'Filtered by "{account_name}"'
 
         # If user using search form
         elif request.form.get('search_btn') == 'search_btn':
@@ -73,17 +78,32 @@ def index():
 
     # Query records
     if request.form.get('filter_btn') == 'between':
-        res = cur.execute("SELECT * FROM records WHERE user_id = ? AND date BETWEEN ? AND ?",
+        res = cur.execute("SELECT * FROM records WHERE user_id = ? AND date BETWEEN ? AND ? ORDER BY date",
                           (session["user_id"], start_date, end_date))
 
+    elif request.form.get('filter_btn') == 'filter_by_category':
+
+        if request.form.get('account_name') == 'All Income':
+            res = cur.execute("SELECT * FROM records WHERE user_id = ? AND account_category = 'Income' ORDER BY date",
+                                (session["user_id"],))
+
+        elif request.form.get('account_name') == 'All Expense':
+            res = cur.execute("SELECT * FROM records WHERE user_id = ? AND account_category = 'Expense' ORDER BY date",
+                                (session["user_id"],))
+
+        else:
+            res = cur.execute("SELECT * FROM records WHERE user_id = ? AND account_name = ? ORDER BY date",
+                                (session["user_id"], request.form.get('account_name')))
+
     elif request.form.get('search_btn') == 'search_btn':
-        res = cur.execute("SELECT * FROM records WHERE user_id = ? AND (account_name LIKE ? OR description LIKE ?)",
+        res = cur.execute("SELECT * FROM records WHERE user_id = ? AND (account_name LIKE ? OR description LIKE ?) ORDER BY date",
                           (session["user_id"], f"%{keyword}%", f"%{keyword}%"))
 
     else:
-        res = cur.execute("SELECT * FROM records WHERE user_id = ? AND date LIKE ?", (session["user_id"], date_filter))
+        res = cur.execute("SELECT * FROM records WHERE user_id = ? AND date LIKE ? ORDER BY date", (session["user_id"], date_filter))
 
     res = list(res)
+    print(res)
 
     # Sum income and expenses
     income = 0

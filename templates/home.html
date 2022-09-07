@@ -8,21 +8,21 @@
 <!-- BUTTON, SEARCH, FILTER-->
 <div class="row">
     <div class="col-lg-1">
-        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="collapse" data-bs-target="#demo">Record</button>
+        <button type="button" class="btn btn-primary " data-bs-toggle="collapse" data-bs-target="#demo">Record</button>
     </div>
-
-        <div class="col-lg-4">
-            <form action="/" method="post">
-                <div class="input-group mb-3">
-                    <input name="search_vield" type="text" class="form-control" placeholder="Anything" aria-label="Search" aria-describedby="button-addon2">
-                    <button name="search_btn" value="search_btn" class="btn btn-primary" type="submit" id="button-addon2">Search</button>
-                </div>
-            </form>
-        </div>
 
     <div class="col-lg-4">
         <form action="/" method="post">
-            <div class="input-group mb-3">
+            <div class="input-group ">
+                <input name="search_vield" type="text" class="form-control" placeholder="Anything" aria-label="Search" aria-describedby="button-addon2">
+                <button name="search_btn" value="search_btn" class="btn btn-primary" type="submit" id="button-addon2">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-lg-4">
+        <form action="/" method="post">
+            <div class="input-group ">
                 <input name="start_date" type="date" class="form-control">
                 <input name="end_date" type="date" class="form-control">
                 <button name="filter_btn" value="between" class="btn btn-primary" type="submit" id="button-addon2">Filter</button>
@@ -30,16 +30,36 @@
         </form>
     </div>
 
-    <div class="col-lg-1 mb-3">
-        <button class="btn btn-primary mb-3" onclick="location.href = '/';">This month</button>
-    </div>
-    <div class="col-lg-1 mb-3">
+    <div class="col-lg-3">
         <form action="/" method="post">
-            <button name="filter_btn" value="thisyear" type="submit" class="btn btn-primary mb-3">This year</button>
-    </div>
-    <div class="col-lg-1 mb-3">
-            <button name="filter_btn" value="alltime" type="submit" class="btn btn-primary mb-3">All time</button>
+            <button name="filter_btn" value="This Month" type="submit" class="btn btn-primary me-2">This <br> Month</button>
+            <button name="filter_btn" value="This Year" type="submit" class="btn btn-primary ms-2 me-2">This <br> Year</button>
+            <button name="filter_btn" value="All Time" type="submit" class="btn btn-primary ms-2">All <br> Time</button>
         </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6"></div>
+
+    <div class="col-lg-3">
+        <div class="form-group">
+            <form action="/" method="post">
+                <div class="input-group mb-2">
+                    <select required name="account_name" class="form-select form-control" id="exampleSelect1">
+                        <option value="" disabled {{ default_selected }}>Filter by Category</option>
+                        <option value="All Income">--- All Income ---</option>
+                        {% for i in income_list %}
+                            <option value="{{ i[0] }}" {{ i[1] }}>{{ i[0] }}</option>
+                        {% endfor %}
+                            <option value="All Expense">--- All Expense ---</option>
+                        {% for i in expense_list %}
+                            <option value="{{ i[0] }}" {{ i[1] }}>{{ i[0] }}</option>
+                        {% endfor %}
+                    </select>
+                    <button name="filter_btn" value="filter_by_category" class="btn btn-primary" type="submit" id="button-addon2">Filter</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
