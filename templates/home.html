@@ -7,11 +7,11 @@
 {% block main %}
 <!-- BUTTON, SEARCH, FILTER-->
 <div class="row">
-    <div class="col-lg-1">
+    <div class="col-lg-1 mb-2">
         <button type="button" class="btn btn-primary " data-bs-toggle="collapse" data-bs-target="#demo">Record</button>
     </div>
 
-    <div class="col-lg-4">
+    <div class="col-lg-4 mb-2">
         <form action="/" method="post">
             <div class="input-group ">
                 <input name="search_vield" type="text" class="form-control" placeholder="Anything" aria-label="Search" aria-describedby="button-addon2">
@@ -20,7 +20,7 @@
         </form>
     </div>
 
-    <div class="col-lg-4">
+    <div class="col-lg-4 mb-2">
         <form action="/" method="post">
             <div class="input-group ">
                 <input name="start_date" type="date" class="form-control">
@@ -30,7 +30,7 @@
         </form>
     </div>
 
-    <div class="col-lg-3">
+    <div class="col-lg-3 mb-2">
         <form action="/" method="post">
             <button name="filter_btn" value="This Month" type="submit" class="btn btn-primary me-2">This <br> Month</button>
             <button name="filter_btn" value="This Year" type="submit" class="btn btn-primary ms-2 me-2">This <br> Year</button>
@@ -39,12 +39,14 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-6"></div>
+    <div class="col-lg-2"></div>
 
-    <div class="col-lg-3">
+    <div class="col-lg-7">
         <div class="form-group">
             <form action="/" method="post">
                 <div class="input-group mb-2">
+                    <input name="start_date" type="date" class="form-control">
+                    <input name="end_date" type="date" class="form-control">
                     <select required name="account_name" class="form-select form-control" id="exampleSelect1">
                         <option value="" disabled {{ default_selected }}>Filter by Category</option>
                         <option value="All Income">--- All Income ---</option>

@@ -61,10 +61,19 @@ def index():
             end_date = request.form.get('end_date')
             label = 'Between ' + start_date + ' and ' + end_date
 
-        # If user filters by category
+        # If user filters by category OR date
         elif request.form.get('filter_btn') == 'filter_by_category':
             account_name = request.form.get('account_name')
-            label = f'Filtered by "{account_name}"'
+            start_date = request.form.get('start_date')
+            end_date = request.form.get('end_date')
+            # If user submitted date
+            if start_date and end_date:
+                label = f'Filtered by "{account_name}"' + ' between ' + start_date + ' and ' + end_date
+            # If not
+            else:
+                start_date = '0000-00-00'
+                end_date = '9999-99-99'
+                label = f'Filtered by "{account_name}"'
 
         # If user using search form
         elif request.form.get('search_btn') == 'search_btn':
@@ -84,16 +93,16 @@ def index():
     elif request.form.get('filter_btn') == 'filter_by_category':
 
         if request.form.get('account_name') == 'All Income':
-            res = cur.execute("SELECT * FROM records WHERE user_id = ? AND account_category = 'Income' ORDER BY date",
-                                (session["user_id"],))
+            res = cur.execute("SELECT * FROM records WHERE user_id = ? AND account_category = 'Income' AND date BETWEEN ? AND ? ORDER BY date",
+                                (session["user_id"], start_date, end_date))
 
         elif request.form.get('account_name') == 'All Expense':
-            res = cur.execute("SELECT * FROM records WHERE user_id = ? AND account_category = 'Expense' ORDER BY date",
-                                (session["user_id"],))
+            res = cur.execute("SELECT * FROM records WHERE user_id = ? AND account_category = 'Expense' AND date BETWEEN ? AND ? ORDER BY date",
+                                (session["user_id"], start_date, end_date))
 
         else:
-            res = cur.execute("SELECT * FROM records WHERE user_id = ? AND account_name = ? ORDER BY date",
-                                (session["user_id"], request.form.get('account_name')))
+            res = cur.execute("SELECT * FROM records WHERE user_id = ? AND account_name = ? AND date BETWEEN ? AND ? ORDER BY date",
+                                (session["user_id"], request.form.get('account_name'), start_date, end_date))
 
     elif request.form.get('search_btn') == 'search_btn':
         res = cur.execute("SELECT * FROM records WHERE user_id = ? AND (account_name LIKE ? OR description LIKE ?) ORDER BY date",
