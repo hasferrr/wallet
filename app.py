@@ -112,7 +112,6 @@ def index():
         res = cur.execute("SELECT * FROM records WHERE user_id = ? AND date LIKE ? ORDER BY date", (session["user_id"], date_filter))
 
     res = list(res)
-    print(res)
 
     # Sum income and expenses
     income = 0
