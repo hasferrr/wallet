@@ -156,6 +156,13 @@ def horizontal_bar(height, bars, file_name="foo", bar_color='#69b3a2'):
     Plotting a Horizontal Barplot using Matplotlib
     https://www.python-graph-gallery.com/2-horizontal-barplot
     """
+
+    """
+    Matplotlib and :RuntimeError: main thread is not in main loop:
+    https://stackoverflow.com/questions/52839758/matplotlib-and-runtimeerror-main-thread-is-not-in-main-loop
+    """
+    plt.switch_backend('agg')
+
     # Example
     # height = [30, 120, 5505, 180, 450]
     # bars = ('A', 'B', 'C', 'D', 'E')
